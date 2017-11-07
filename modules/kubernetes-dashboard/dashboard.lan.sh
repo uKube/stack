@@ -29,14 +29,14 @@ function helm_install_with_config {
   # Replace the host domain
   sedeasy "VPS_POD_DOMAIN" "$DOMAIN" config.yaml
 
-  helm install --name "$2" \
+  helm install --name "$DOMAIN" \
     -f "config.yaml" \
     "$1/$2" &>/dev/null
 }
 
 helm_install_with_config "stable" "kubernetes-dashboard"
 
-wait_until_pod_is_running "kubernetes-dashboard" "app=kubernetes-dashboard"
+wait_until_pod_is_running "$DOMAIN" "app=$DOMAIN"
 
 # Print friendly done message
 echo "-----------------------------------------------------"
