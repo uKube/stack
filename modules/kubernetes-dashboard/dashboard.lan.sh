@@ -12,10 +12,12 @@ function sedeasy {
 function wait_until_pod_is_running {
   # Wait until the docker is up and running
   echo -n ">> Waiting for '$1' to start..."
-  while [ ! $(kubectl get pods --all-namespaces -l $2 -o jsonpath="{.items[0].status.phase}" &>/dev/null && echo $?) ]
+  status=`kubectl get pods --all-namespaces -l $2 -o jsonpath="{.items[0].status.phase}" | grep Running`
+  while [ "$status" != "Running" ]
   do
-      echo -n "."
-      sleep 0.5
+    echo -n "."
+    sleep 0.5
+    status=`kubectl get pods --all-namespaces -l $2 -o jsonpath="{.items[0].status.phase}" | grep Running`
   done
   echo "started!"
 }
