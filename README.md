@@ -5,6 +5,7 @@
 Easy install script for Kubernetes stack with Nginx Ingress, ACME, Weave.net, Helm and many modules
 
 ## Stack
+- [Arch Linux](https://www.archlinux.org/) ( as a preference, but you can use your preferred distro if you want )
 - IPv4 ( IPv6 will come soon )
 - [Docker](https://www.docker.com/)
 - [Kubernetes](https://kubernetes.io/)
