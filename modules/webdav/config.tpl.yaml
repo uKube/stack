@@ -1,0 +1,19 @@
+# Default values for webdav.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+ingress:
+  enabled: true
+  hosts:
+    - VPS_POD_DOMAIN
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+# Same as in Kubernetes
+config:
+  # default: demo
+  username: VPS_POD_USERNAME
+  # default: demo
+  password: VPS_POD_PASSWORD
+  # default: $HOME
+  volumePath: VPS_POD_MOUNTPATH

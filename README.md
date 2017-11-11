@@ -15,6 +15,7 @@ Arch Linux setup script to obtain a full VPS with Automatic Reverse Proxy withou
 
 ## Module
 - [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) ( [dashboard.lan.sh](modules/kubernetes-dashboard/dashboard.lan.sh) )
+- [WebDAV](https://hub.docker.com/r/idelsink/webdav/) ( [webdav.lan.sh](modules/webdav/webdav.lan.sh) )
 
 ## Requirements
 A clean Arch Linux install with SSH capability as root user ( or any user which has sudo powers ).
