@@ -43,12 +43,12 @@ function helm_install_with_config {
 
   helm install --name "${DOMAIN/./-}" \
     -f "config.yaml" \
-    "$1" &>/dev/null
+    "$1/$2" &>/dev/null
 }
 
-helm_install_with_config "mail-server"
+helm_install_with_config "ukube" "posteio"
 
-wait_until_pod_is_running "${DOMAIN/./-}" "app=mail-server"
+wait_until_pod_is_running "${DOMAIN/./-}" "app=posteio"
 
 # Print friendly done message
 echo "-----------------------------------------------------"

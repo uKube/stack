@@ -39,10 +39,10 @@ function helm_install_with_config {
 
   helm install --name "${DOMAIN/./-}" \
     -f "config.yaml" \
-    "$1" &>/dev/null
+    "$1/$2" &>/dev/null
 }
 
-helm_install_with_config "webdav"
+helm_install_with_config "ukube" "webdav"
 
 wait_until_pod_is_running "${DOMAIN/./-}" "app=webdav"
 
