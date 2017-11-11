@@ -10,10 +10,14 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.externalPort }}
-      targetPort: {{ .Values.service.internalPort }}
+    - name: http
+      port: 80
       protocol: TCP
-      name: {{ .Values.service.name }}
+      targetPort: 80
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
   selector:
     app: {{ template "webdav.name" . }}
     release: {{ .Release.Name }}
