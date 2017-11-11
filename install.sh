@@ -19,7 +19,8 @@ function helm_install_with_config {
   sedeasy "HOST_IPv4" "$HOST_IPv4" "configs/$1/$2.yaml"
   sedeasy "HOST_IPv6" "$HOST_IPv6" "configs/$1/$2.yaml"
 
-  helm install --name "$2" \
+  helm install \
+    --name "$2" \
     -f "configs/$1/$2.yaml" \
     "$1/$2" &>/dev/null
 }
@@ -28,10 +29,12 @@ function helm_install_with_config {
 function wait_until_pod_is_running {
   # Wait until the docker is up and running
   # echo -n ">> Waiting for '$1' to start..."
-  while [ ! $(kubectl get pods --all-namespaces -l $2 -o jsonpath="{.items[0].status.phase}" &>/dev/null && echo $?) ]
+  status=`kubectl get pods --all-namespaces -l $2 -o jsonpath="{.items[0].status.phase}" | grep Running`
+  while [ "$status" != "Running" ]
   do
-      #echo -n "."
-      sleep 0.5
+    #echo -n "."
+    sleep 0.5
+    status=`kubectl get pods --all-namespaces -l $2 -o jsonpath="{.items[0].status.phase}" | grep Running`
   done
   # echo "started!"
 }
@@ -57,6 +60,18 @@ systemctl start docker.service &>/dev/null
 # Kubelet
 systemctl enable kubelet.service &>/dev/null
 systemctl start kubelet.service &>/dev/null
+
+# Enable support for systems with swap enabled
+echo ">> Enabling Swap support..."
+# Add systemd conf file for the kubelet service
+mkdir -p /etc/systemd/system/kubelet.service.d/
+cat << EOF > /etc/systemd/system/kubelet.service.d/99-local-extras.conf
+[Service]
+Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"
+EOF
+# Restart the kubelet service
+systemctl daemon-reload
+systemctl restart kubelet.service &>/dev/null
 
 # Start Kubernetes
 echo ">> Starting Kubernetes..."
@@ -94,7 +109,8 @@ kubectl taint nodes --all node-role.kubernetes.io/master- &>/dev/null
 kubectl -n kube-system create sa tiller &>/dev/null
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller &>/dev/null
 helm init --service-account tiller &>/dev/null
-wait_until_pod_is_running "tiller" "name=tiller"
+# Wait until Tiller is ready
+kubectl rollout status -w deployment/tiller-deploy --namespace=kube-system &>/dev/null
 # Add helm uKube repository
 helm repo add ukube https://ukube.github.io/charts/dist &>/dev/null
 
