@@ -1,8 +1,8 @@
-> This repository is a natural successor of https://github.com/julianxhokaxhiu/vps-powered-by-docker.
+> This repository is a natural successor of https://github.com/julianxhokaxhiu/vps-powered-by-docker
 
-# vps-powered-by-kubernetes
+# µKube Stack
 
-Arch Linux setup script to obtain a full VPS with Automatic Reverse Proxy without pain
+Easy install script for Kubernetes stack with Nginx Ingress, ACME, Weave.net, Helm and many modules
 
 ## Stack
 - IPv4 ( IPv6 will come soon )
@@ -13,7 +13,7 @@ Arch Linux setup script to obtain a full VPS with Automatic Reverse Proxy withou
 - [kube-lego](https://github.com/jetstack/kube-lego) as Automatic SSL ACME provider
 - [Helm](https://helm.sh/) as Kubernetes Package Manager
 
-## Module
+## Modules
 - [Kubernetes Dashboard](https://github.com/kubernetes/dashboard) ( [dashboard.lan.sh](modules/kubernetes-dashboard/dashboard.lan.sh) )
 - [Poste](https://poste.io) ( [mail.lan.sh](modules/mail-server/mail.lan.sh) )
 - [WebDAV](https://hub.docker.com/r/idelsink/webdav/) ( [webdav.lan.sh](modules/webdav/webdav.lan.sh) )
