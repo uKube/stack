@@ -9,6 +9,10 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
+  tls:
+    - secretName: VPS_POD_DOMAIN-tls
+      hosts:
+      - VPS_POD_DOMAIN
 service:
   ## List of IP addresses at which the controller services are available
   ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips

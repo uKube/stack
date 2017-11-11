@@ -9,6 +9,10 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
+  tls:
+    - secretName: VPS_POD_DOMAIN-tls
+      hosts:
+      - VPS_POD_DOMAIN
 # Same as in Kubernetes
 config:
   # default: demo
