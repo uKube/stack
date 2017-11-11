@@ -94,6 +94,8 @@ kubectl -n kube-system create sa tiller &>/dev/null
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller &>/dev/null
 helm init --service-account tiller &>/dev/null
 wait_until_pod_is_running "tiller" "name=tiller"
+# Add helm uKube repository
+helm repo add ukube https://ukube.github.io/charts/dist &>/dev/null
 
 # Install Nginx Ingress Controller
 echo ">> Instaling Nginx Ingress Controller..."
