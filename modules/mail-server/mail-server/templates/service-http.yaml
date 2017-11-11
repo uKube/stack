@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "mail-server.fullname" . }}-http
+  labels:
+    app: {{ template "mail-server.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: {{ .Values.service.name }}-http
+      port: {{ default 80 .Values.service.externalPort.http }}
+      targetPort: {{ default 80 .Values.service.internalPort.http }}
+      protocol: TCP
+  selector:
+    app: {{ template "mail-server.name" . }}
+    release: {{ .Release.Name }}
