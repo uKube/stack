@@ -24,8 +24,8 @@ A clean Arch Linux install with SSH capability as root user ( or any user which 
 
 ## Installation
 ```bash
-wget https://github.com/julianxhokaxhiu/vps-powered-by-kubernetes/archive/master.zip
-unzip master.zip && cd vps-powered-by-kubernetes-master
+wget https://github.com/uKube/stack/archive/master.zip
+unzip master.zip && cd stack-master
 find ./ -name "*.sh" -exec chmod +x {} \;
 ./install.sh
 ```
