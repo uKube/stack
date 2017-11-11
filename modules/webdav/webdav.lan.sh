@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DOMAIN=`basename -- "$0" .sh`
+MODULE_NAME=${DOMAIN//./-}
 
 # Pod configuration
 POD_USERNAME="demo"
@@ -37,14 +38,15 @@ function helm_install_with_config {
   sedeasy "VPS_POD_PASSWORD" "$POD_PASSWORD" config.yaml
   sedeasy "VPS_POD_MOUNTPATH" "$POD_MOUNTPATH" config.yaml
 
-  helm install --name "${DOMAIN/./-}" \
+  helm install \
+    --name "$MODULE_NAME" \
     -f "config.yaml" \
     "$1/$2" &>/dev/null
 }
 
 helm_install_with_config "ukube" "webdav"
 
-wait_until_pod_is_running "${DOMAIN/./-}" "app=webdav"
+wait_until_pod_is_running "$MODULE_NAME" "app=webdav"
 
 # Print friendly done message
 echo "-----------------------------------------------------"

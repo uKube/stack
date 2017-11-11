@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DOMAIN=`basename -- "$0" .sh`
+MODULE_NAME=${DOMAIN//./-}
 
 # Thanks to http://stackoverflow.com/a/10467453
 function sedeasy {
@@ -29,14 +30,15 @@ function helm_install_with_config {
   # Replace the host domain
   sedeasy "VPS_POD_DOMAIN" "$DOMAIN" config.yaml
 
-  helm install --name "${DOMAIN/./-}" \
+  helm install \
+    --name "$MODULE_NAME" \
     -f "config.yaml" \
     "$1/$2" &>/dev/null
 }
 
 helm_install_with_config "stable" "kubernetes-dashboard"
 
-wait_until_pod_is_running "${DOMAIN/./-}" "app=kubernetes-dashboard"
+wait_until_pod_is_running "$MODULE_NAME" "app=kubernetes-dashboard"
 
 # Print friendly done message
 echo "-----------------------------------------------------"

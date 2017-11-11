@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DOMAIN=`basename -- "$0" .sh`
+MODULE_NAME=${DOMAIN//./-}
 
 # Pod configurations
 HOST_IPv4=`ip -4 route get 255.255.255.255 | head -1 | cut -f6 -d' '`
@@ -41,14 +42,15 @@ function helm_install_with_config {
   sedeasy "VPS_POD_LOCALTIMEPATH" "$POD_LOCALTIMEPATH" config.yaml
   sedeasy "HOST_IPv4" "$HOST_IPv4" config.yaml
 
-  helm install --name "${DOMAIN/./-}" \
+  helm install \
+    --name "$MODULE_NAME" \
     -f "config.yaml" \
     "$1/$2" &>/dev/null
 }
 
 helm_install_with_config "ukube" "posteio"
 
-wait_until_pod_is_running "${DOMAIN/./-}" "app=posteio"
+wait_until_pod_is_running "$MODULE_NAME" "app=posteio"
 
 # Print friendly done message
 echo "-----------------------------------------------------"

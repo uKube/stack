@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DOMAIN=`basename -- "$0" .uninstall.sh`
-MODULE=${DOMAIN/./-}
+MODULE=${DOMAIN//./-}
 
 if [ ! -z `helm list --deployed --short $MODULE` ]; then
   # Purge the whole deployment
