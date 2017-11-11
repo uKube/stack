@@ -79,7 +79,8 @@ kubectl -n kube-public delete rolebinding kubeadm:bootstrap-signer-clusterinfo &
 echo ">> Installing pod network..."
 # Add missing CNI plugins
 CNI_VERSION='v0.5.2'
-curl -fsSL "https://github.com/containernetworking/cni/releases/download/$CNI_VERSION/cni-amd64-${CNI_VERSION}.tgz" | tar xvz -C /opt/cni/bin/ &>/dev/null
+mkdir -p /opt/cni/bin
+curl -fsSL "https://github.com/containernetworking/cni/releases/download/${CNI_VERSION}/cni-amd64-${CNI_VERSION}.tgz" | tar xvz -C /opt/cni/bin/ &>/dev/null
 # Use WeaveNet ( see https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network )
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')" &>/dev/null
 wait_until_pod_is_running "weave-net" "name=weave-net"
